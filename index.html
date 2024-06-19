@@ -117,7 +117,7 @@
       }
 
       /**
-       * Print the summary and start datetime/date of the next ten events in
+       * Print the summary, start datetime/date, and duration of all events in
        * the authorized user's calendar. If no events are found an
        * appropriate message is printed.
        */
@@ -126,10 +126,8 @@
         try {
           const request = {
             'calendarId': 'primary',
-            'timeMin': (new Date()).toISOString(),
             'showDeleted': false,
             'singleEvents': true,
-            'maxResults': 10,
             'orderBy': 'startTime',
           };
           response = await gapi.client.calendar.events.list(request);
@@ -144,9 +142,12 @@
           return;
         }
         // Flatten to string to display
-        const output = events.reduce(
-            (str, event) => `${str}${event.summary} (${event.start.dateTime || event.start.date})\n`,
-            'Events:\n');
+        const output = events.reduce((str, event) => {
+          const start = new Date(event.start.dateTime || event.start.date);
+          const end = new Date(event.end.dateTime || event.end.date);
+          const duration = (end - start) / (1000 * 60); // duration in minutes
+          return `${str}${event.summary} (${start.toLocaleString()} - ${end.toLocaleString()}, Duration: ${duration} minutes)\n`;
+        }, 'Events:\n');
         document.getElementById('content').innerText = output;
       }
     </script>
