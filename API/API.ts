@@ -15,37 +15,31 @@ const config = {
 const apiCalendar = new ApiCalendar(config);
 
 export const GoogleCalenderCallTest = () => {
-  apiCalendar.handleAuthClick();
+    apiCalendar.handleAuthClick();
 }
 
 export const GoogleCalenderCallTestEvent = (courses: Course[]) => {
-  courses.forEach(course => {
-    const { day, period, name } = course;
-    
     let date = new Date();
-    date.setDate(date.getDate() + ((7 + day - date.getDay()) % 7)); // Set to the next course day
-    date.setHours(parseInt(PeriodStartTimes[period].split(":")[0]));
-    date.setMinutes(parseInt(PeriodStartTimes[period].split(":")[1]));
+    date = new Date(date.getFullYear(),date.getMonth(), date.getDate())
+    date.setHours(8);
+    date.setMinutes(45);
 
     let endDate = new Date(date);
-    endDate.setHours(parseInt(PeriodEndTimes[period].split(":")[0]));
-    endDate.setMinutes(parseInt(PeriodEndTimes[period].split(":")[1]));
+    endDate.setHours(10);
 
-    // Create event
+    // Need to manually edit function
+    //https://developers.google.com/calendar/api/v3/reference/events
     apiCalendar.createEvent({
-      summary: name,
-      start: {
-        dateTime: date.toISOString(),
-        timeZone: "Asia/Tokyo",
-      },
-      end: {
-        dateTime: endDate.toISOString(),
-        timeZone: "Asia/Tokyo",
-      },
-    }).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.error(err);
-    });
-  });
+        summary: "New test",
+        start: {
+          dateTime: date.toISOString(),
+          timeZone: "Asia/Tokyo",
+        },
+        end: {
+          dateTime: endDate.toISOString(),
+          timeZone: "Asia/Tokyo",
+        },
+      }).then((res) => {
+        console.log(res);
+      })
 }
