@@ -12,6 +12,8 @@ export const App: React.FC = () => {
     const [quarterText, setQuarterText] = React.useState("Q1");
     const [loadedCourses, setLoadedCourses] = React.useState<Course[]>([]);
     const [displayCourses, setDisplayCourses] = React.useState(false);
+    const [curriculum, setCurriculum] = React.useState("2017");
+    const [fileSelected, setFileSelected] = React.useState<File>();
 
     React.useEffect(() => {
         if (loadedCourses !== null && loadedCourses.length > 0 && loadedCourses[0].location !== undefined) {
@@ -24,7 +26,6 @@ export const App: React.FC = () => {
         setQuarterText(event.target.checked ? "Q2" : "Q1");
     }
 
-    const [fileSelected, setFileSelected] = React.useState<File>();
 
     const handleFileChange = function (e: React.ChangeEvent<HTMLInputElement>) {
         const fileList = e.target.files;
@@ -64,7 +65,7 @@ export const App: React.FC = () => {
     };
 
     const onTestGoogleCalender = async () => {
-        GoogleCalenderSendCourses(loadedCourses);
+        GoogleCalenderSendCourses(loadedCourses, quarterText);
     };
 
     return (
@@ -72,13 +73,16 @@ export const App: React.FC = () => {
             <div className={css.sidebar}>
                 <div className={css.uploadContainer}>
                     <label htmlFor="fileInput" className={css.uploadLabel}>
-                        Upload File
+                        {fileSelected !== undefined ? fileSelected.name : "Upload File"}
                     </label>
                     <input type="file" id="fileInput" accept=".pdf" onChange={handleFileChange} />
                 </div>
-                <button id={css.generateButton} onClick={onGenerateSchedule}>Generate Schedule</button>
+                <button id={css.generateButton} onClick={onGenerateSchedule}>Make Schedule</button>
+                <br />
+                <br />
+                <br />
                 <button id={css.loginToGoogle} onClick={onLoginGoogle}>Login to Google</button>
-                <button id={css.importGoogleCalendarButton} onClick={onTestGoogleCalender}>Test Send Courses</button>
+                <button id={css.importGoogleCalendarButton} onClick={onTestGoogleCalender}>Export Courses</button>
                 {/*<GoogleLogin onSuccess={responseMessage} onError={errorMessage} />*/}
             </div>
             <div className={css.main}>
