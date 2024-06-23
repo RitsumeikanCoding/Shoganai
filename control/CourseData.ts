@@ -33,7 +33,7 @@ export const StringToCourse = (courseString: string, language: Langauge, previou
         let count = 0;
         let course: Course = {
             semester: splits[count++],
-            day: parseSplit(splits[count++], language),
+            day: parseDay(parseSplit(splits[count++], language), language),
             period: parsePeriod(splits[count++], language),
             code: splits[count++],
             name: parseSplit(splits[count++], language),
@@ -61,9 +61,43 @@ const parsePeriod = (periodText: string, language: Langauge):string  => {
             /[\uff01-\uff5e]/g,
             function(ch) {
                 return String.fromCharCode(ch.charCodeAt(0) - 0xfee0); }
-            );;
+            );
     } else {
         return periodText;
+    }
+};
+
+const parseDay = (dayText: string, language: Langauge):string  => {
+    if (language === Langauge.Japanese) {
+        switch (dayText) {
+            case "⽉曜⽇":
+                return "1";
+            case "⽕曜⽇":
+                return "2";
+            case "水曜⽇":
+                return "3";
+            case "⽊曜⽇":
+                return "4";
+            case "⾦曜⽇":
+                return "5";
+            default:
+                return "0";
+        }
+    } else {
+        switch (dayText) {
+            case "Monday":
+                return "1";
+            case "Tuesday":
+                return "2";
+            case "Wednesday":
+                return "3";
+            case "Thursday":
+                return "4";
+            case "Friday":
+                return "5";
+            default:
+                return "0";
+        }
     }
 };
 
