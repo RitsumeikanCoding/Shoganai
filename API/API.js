@@ -1,3 +1,5 @@
+import {Course} from '../CourseData.ts'
+
 const fs = require('fs'); // Module for working with file system
 const { google } = require('googleapis'); // Google APIs Node.js client library
 
@@ -65,6 +67,15 @@ async function main() {
         console.log(`Created calendar: ${createdCalendar.data.id}`);
     } catch (err) {
         console.error('Error:', err);
+    }
+    
+    for (const courses of Course) {
+        const event = {
+            summary: name,
+            location: location,
+            start: 
+            end:
+        }
     }
 }
 
