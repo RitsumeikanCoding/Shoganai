@@ -1,9 +1,22 @@
 import readXlsxFile from 'read-excel-file'
+import { Course } from './CourseData';
 
-
-const ReadExcelFile = (path: ArrayBuffer) => {
+export const ReadExcelFile = (courses: Course[], path: ArrayBuffer): Course[] => {
+    let returnCourses: Course[] = [];
     readXlsxFile(path).then((rows) => {
-        // `rows` is an array of rows
-        // each row being an array of cells.
+        for (let index = 0; index < courses.length; index++) {
+            const course = courses[index];
+            for (let index = 0; index < rows.length; index++) {
+                const row = rows[index];
+                if (row[6] == course.code) {
+                    returnCourses.push({
+                        ...course,
+                        location: row[5].toString()
+                    });
+                    break;
+                }
+            }
+        }
       })
+    return returnCourses;
 }
