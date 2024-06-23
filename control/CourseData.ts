@@ -32,7 +32,7 @@ export const StringToCourse = (courseString: string, language: Langauge, previou
 
         let count = 0;
         let course: Course = {
-            semester: splits[count++],
+            semester: parseQuarter(splits[count++], language),
             day: parseDay(parseSplit(splits[count++], language), language),
             period: parsePeriod(splits[count++], language),
             code: splits[count++],
@@ -64,6 +64,20 @@ const parsePeriod = (periodText: string, language: Langauge):string  => {
             );
     } else {
         return periodText;
+    }
+};
+
+const parseQuarter = (quarterText: string, language: Langauge):string  => {
+    if (language === Langauge.Japanese) {
+        let matches = quarterText.replace(
+            /[\uff01-\uff5e]/g,
+            function(ch) {
+                return String.fromCharCode(ch.charCodeAt(0) - 0xfee0); }
+            ).match(/\d/g);
+        return matches !== null ? matches[0] : "0";
+    } else {
+        let matches = quarterText.match(/\d/g);
+        return matches !== null ? matches[0] : "0";
     }
 };
 

@@ -13,6 +13,12 @@ export const App: React.FC = () => {
     const [loadedCourses, setLoadedCourses] = React.useState<Course[]>([]);
     const [displayCourses, setDisplayCourses] = React.useState(false);
 
+    React.useEffect(() => {
+        if (loadedCourses !== null && loadedCourses.length > 0 && loadedCourses[0].location !== undefined) {
+            setDisplayCourses(true);
+        }
+    }, [loadedCourses])
+
     const onQuarterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuarterTwoActive(event.target.checked);
         setQuarterText(event.target.checked ? "Q2" : "Q1");
@@ -32,7 +38,7 @@ export const App: React.FC = () => {
             const result = ParsePDFFile(typedarray);
             result.then((res) => {
                 setLoadedCourses(res.courses);
-                setDisplayCourses(true)
+                setDisplayCourses(false)
             })
         }
         fileReader.readAsArrayBuffer(fileList[0]);
@@ -49,7 +55,6 @@ export const App: React.FC = () => {
             const result = ReadExcelFile(loadedCourses, typedarray);
             console.log("Courses: ", result);
             setLoadedCourses(result);
-            setDisplayCourses(true)
         };
         fileReader.readAsArrayBuffer(data);
     };

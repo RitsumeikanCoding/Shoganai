@@ -9,19 +9,21 @@ type Props = {
 }
 
 export const TimetableViewer: React.FC<Props> = ({courses, displayCourses, quarter}) => {
+    const currentQuarter = quarter === "Q1" ? "1" : "2";
     const makeTableBody = () => {
         const makeRow = (number: number, courses: Course[]) => {
+            const quarterCourses = courses.filter((course) => course.semester === "0" || course.semester === currentQuarter)
             const text = number === 7 ? "Session" : "Period " + number;
 
             return (
             <tr key={number}>
                 <td>{text}</td>
                 { displayCourses ? <>
-                    <ClassBox course={courses.find((course) => course.day === "1")} />
-                    <ClassBox course={courses.find((course) => course.day === "2")} />
-                    <ClassBox course={courses.find((course) => course.day === "3")} />
-                    <ClassBox course={courses.find((course) => course.day === "4")} />
-                    <ClassBox course={courses.find((course) => course.day === "5")} />
+                    <ClassBox course={quarterCourses.find((course) => course.day === "1")} />
+                    <ClassBox course={quarterCourses.find((course) => course.day === "2")} />
+                    <ClassBox course={quarterCourses.find((course) => course.day === "3")} />
+                    <ClassBox course={quarterCourses.find((course) => course.day === "4")} />
+                    <ClassBox course={quarterCourses.find((course) => course.day === "5")} />
                 </>:
                 <>
                     <td></td>
@@ -35,7 +37,7 @@ export const TimetableViewer: React.FC<Props> = ({courses, displayCourses, quart
        
         const makeRows = () => {
             const outputRows: React.JSX.Element[] = [];
-            for (let index = 1; index <= 7; index++) {
+            for (let index = 1; index <= 6; index++) {
                 const periodCourses = index === 7 ? courses.filter((course) => course.period == "Session") : courses.filter((course) => course.period == index.toString());
                 outputRows.push(makeRow(index, periodCourses));
             }
