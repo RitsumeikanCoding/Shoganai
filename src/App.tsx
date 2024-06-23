@@ -1,19 +1,22 @@
 import * as React from 'react';
 import css from './App.module.css';
 import { ParsePDFFile } from '../control/PDFReader';
+import { ReadExcelFile } from '../control/ExcelFilter';
+import { Course } from '../control/CourseData';
 
 export const App: React.FC = () => {
     const [quarterTwoActive, setQuarterTwoActive] = React.useState(false);
     const [quarterText, setQuarterText] = React.useState("Q1");
+    const [loadedCourses, setLoadedCourses] = React.useState<Course[]>([])
 
     const onQuarterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuarterTwoActive(event.target.checked);
         setQuarterText(event.target.checked ? "Q2" : "Q1");
     }
 
-    const [fileSelected, setFileSelected] = React.useState<File>() // also tried <string | Blob>
+    const [fileSelected, setFileSelected] = React.useState<File>();
 
-    const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
+    const handleFileChange = function (e: React.ChangeEvent<HTMLInputElement>) {
         const fileList = e.target.files;
         if (!fileList) return;
 
@@ -24,11 +27,24 @@ export const App: React.FC = () => {
 
             const result = ParsePDFFile(typedarray);
             result.then((res) => {
-                console.log("Courses: ", res.courses);
-                console.log("Error: ", res.error);
+                setLoadedCourses(res.courses);
             })
         }
         fileReader.readAsArrayBuffer(fileList[0]);
+    };
+
+    const onGenerateSchedule = async () => {
+        let response = await fetch("https://ritsumeikancoding.github.io/Shoganai/resources/2017APM_Curriculum_24Spring_240529.xlsx");
+        let data = await response.blob();
+
+        const fileReader = new FileReader();
+        fileReader.onload = function (e: Event) {
+            var typedarray = fileReader.result as ArrayBuffer;
+
+            const result = ReadExcelFile(loadedCourses, typedarray);
+            console.log("Courses: ", result);
+        };
+        fileReader.readAsArrayBuffer(data);
     };
 
     return (
@@ -38,9 +54,9 @@ export const App: React.FC = () => {
                     <label htmlFor="fileInput" className={css.uploadLabel}>
                         Upload File
                     </label>
-                    <input type="file" id="fileInput" accept=".pdf" onChange={handleImageChange} />
+                    <input type="file" id="fileInput" accept=".pdf" onChange={handleFileChange} />
                 </div>
-                <button id={css.generateButton}>Generate Schedule</button>
+                <button id={css.generateButton} onClick={onGenerateSchedule}>Generate Schedule</button>
                 <button id={css.importGoogleCalendarButton}>Import to Google Calendar</button>
             </div>
             <div className={css.main}>
