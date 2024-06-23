@@ -1,3 +1,5 @@
+import { PeriodStartTimes, PeriodEndTimes } from "./util";
+
 export type Course = {
     semester: string;
     day: string;
@@ -10,7 +12,18 @@ export type Course = {
 
     location?: string; // Find from EXCEL by using course code.
     isExtraClass?: boolean; // Is true if course code as already been parsed
-}
+    periodStartTime?: string; // Additional property for period start time
+    periodEndTime?: string;   // Additional property for period end time
+};
+
+export const assignPeriodTimes = (course: Course): Course => {
+    const period = course.period;
+
+    course.periodStartTime = PeriodStartTimes[period];
+    course.periodEndTime = PeriodEndTimes[period];
+
+    return course;
+};
 
 export enum Langauge {
     English,
