@@ -90,6 +90,15 @@ button {
     transition: background-color 0.3s ease;
 }
 
+#loginToGoogle {
+    background-color: yellow; /* Blue color for Import to Google Calendar button */
+}
+
+#loginToGoogle:hover {
+    background-color: rgba(243, 243, 0, 0.793); /* Darker blue on hover */
+    transition: background-color 0.3s ease;
+}
+
 #calendarContainer {
     margin-top: 20px;
     flex: 1;
