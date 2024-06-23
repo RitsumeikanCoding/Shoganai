@@ -4,8 +4,8 @@ import { PeriodEndTimes, PeriodStartTimes } from "../control/util";
 import ApiCalendar from "react-google-calendar-api";
 
 const config = {
-  clientId: "1030159274106-2eap8atrikm6orr165ip6mi579t3ev23.apps.googleusercontent.com",
-  apiKey: "AIzaSyBL7yowDy4t2qeS31EKJBojzx51ldqZuNg", 
+  clientId: "SECRET",
+  apiKey: "SECRET", 
   scope: "https://www.googleapis.com/auth/calendar",
   discoveryDocs: [
     "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
