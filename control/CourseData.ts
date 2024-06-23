@@ -36,7 +36,7 @@ export const StringToCourse = (courseString: string, language: Langauge, previou
             day: parseDay(parseSplit(splits[count++], language), language),
             period: parsePeriod(splits[count++], language),
             code: splits[count++],
-            name: parseSplit(splits[count++], language),
+            name: splits[count++],
             language: !isLanguageClass
                 ? splits[count++]
                 : "",

@@ -50,7 +50,7 @@ const commonConfig = (env) => ({
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
-            //favicon: './resources/favicon.ico'
+            favicon: './resources/favicon.ico'
         }),
     ],
     resolve: {

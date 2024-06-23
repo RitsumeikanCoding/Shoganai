@@ -19,6 +19,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start; /* Align items to the top */
+    max-width: 30vh;
 }
 
 .main {
@@ -49,6 +50,7 @@ body {
     text-align: center;
     width: 100%; /* Match width to other buttons */
     margin-bottom: 10px;
+    max-width: 11vw;
 }
 
 .upload-label:hover {
@@ -91,11 +93,11 @@ button {
 }
 
 #loginToGoogle {
-    background-color: yellow; /* Blue color for Import to Google Calendar button */
+    background-color: #ff9400; /* Blue color for Import to Google Calendar button */
 }
 
 #loginToGoogle:hover {
-    background-color: rgba(243, 243, 0, 0.793); /* Darker blue on hover */
+    background-color: #dd8202; /* Darker blue on hover */
     transition: background-color 0.3s ease;
 }
 

@@ -17,7 +17,7 @@ export const TimetableViewer: React.FC<Props> = ({courses, displayCourses, quart
 
             return (
             <tr key={number}>
-                <td>{text}</td>
+                <td className={css.periodBox}>{text}</td>
                 { displayCourses ? <>
                     <ClassBox course={quarterCourses.find((course) => course.day === "1")} />
                     <ClassBox course={quarterCourses.find((course) => course.day === "2")} />
@@ -73,11 +73,14 @@ type PropsClassBox = {
 }
 
 export const ClassBox: React.FC<PropsClassBox> = ({course}) => {
+    if (course === undefined) {
+        return (<td className={css.cellBox}></td>)
+    }
     return (
         <td className={css.cellBox}>
-            {course?.name}
-            <br />
-            {course?.location}
+            <div className={css.courseName}>{course.name}</div>
+            <div className={css.courseRoom}>{course.location}</div>
+            <div className={css.courseInstructor}>{course.instructor}</div>
         </td>
     );
 };
