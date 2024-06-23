@@ -1,5 +1,6 @@
 import { Course } from "../control/CourseData";
 import { PeriodEndTimes, PeriodStartTimes } from "../control/util";
+
 import ApiCalendar from "react-google-calendar-api";
 
 const config = {
@@ -18,46 +19,27 @@ export const GoogleCalenderCallTest = () => {
 }
 
 export const GoogleCalenderCallTestEvent = (courses: Course[]) => {
-    courses.forEach(course => {
-        const { name, period, dayOfWeek } = course;  // Assuming course has these properties
-        const startTime = PeriodStartTimes[period];
-        const endTime = PeriodEndTimes[period];
+    let date = new Date();
+    date = new Date(date.getFullYear(),date.getMonth(), date.getDate())
+    date.setHours(8);
+    date.setMinutes(45);
 
-        if (!startTime || !endTime) {
-            console.error(`Start or end time not found for period: ${period}`);
-            return;
-        }
+    let endDate = new Date(date);
+    endDate.setHours(10);
 
-        let date = new Date();
-        // Set the date to the correct day of the week
-        date.setDate(date.getDate() + (dayOfWeek - date.getDay() + 7) % 7);
-
-        // Set the start time
-        const [startHour, startMinute] = startTime.split(':').map(Number);
-        date.setHours(startHour);
-        date.setMinutes(startMinute);
-
-        let endDate = new Date(date);
-        // Set the end time
-        const [endHour, endMinute] = endTime.split(':').map(Number);
-        endDate.setHours(endHour);
-        endDate.setMinutes(endMinute);
-
-        // Create the event
-        apiCalendar.createEvent({
-            summary: name,
-            start: {
-                dateTime: date.toISOString(),
-                timeZone: "Asia/Tokyo",
-            },
-            end: {
-                dateTime: endDate.toISOString(),
-                timeZone: "Asia/Tokyo",
-            },
-        }).then((res) => {
-            console.log(`Event created for course: ${name}`, res);
-        }).catch((err) => {
-            console.error(`Error creating event for course: ${name}`, err);
-        });
-    });
+    // Need to manually edit function
+    //https://developers.google.com/calendar/api/v3/reference/events
+    apiCalendar.createEvent({
+        summary: "New test",
+        start: {
+          dateTime: date.toISOString(),
+          timeZone: "Asia/Tokyo",
+        },
+        end: {
+          dateTime: endDate.toISOString(),
+          timeZone: "Asia/Tokyo",
+        },
+      }).then((res) => {
+        console.log(res);
+      })
 }
