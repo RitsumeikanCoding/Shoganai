@@ -34,7 +34,7 @@ export const StringToCourse = (courseString: string, language: Langauge, previou
         let course: Course = {
             semester: splits[count++],
             day: parseSplit(splits[count++], language),
-            period: splits[count++],
+            period: parsePeriod(splits[count++], language),
             code: splits[count++],
             name: parseSplit(splits[count++], language),
             language: !isLanguageClass
@@ -54,6 +54,18 @@ export const StringToCourse = (courseString: string, language: Langauge, previou
         return null;
     }
 }
+
+const parsePeriod = (periodText: string, language: Langauge):string  => {
+    if (language === Langauge.Japanese) {
+        return periodText === "セッション" ? "Session" : periodText.slice(0,1).replace(
+            /[\uff01-\uff5e]/g,
+            function(ch) {
+                return String.fromCharCode(ch.charCodeAt(0) - 0xfee0); }
+            );;
+    } else {
+        return periodText;
+    }
+};
 
 const parseSplit = (text: string, language: Langauge, isInstructor: boolean = false): string => {
     if (language === Langauge.Japanese) {
