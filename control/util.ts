@@ -1,6 +1,6 @@
 import {Course} from './CourseData'
 
-export const PeriodtoStartTimes: { [key: string]: string } = {
+export const PeriodStartTimes: { [key: string]: string } = {
     "1": "8:45",
     "2": "10:35",
     "3": "12:30",
@@ -18,12 +18,3 @@ export const PeriodEndTimes: { [key: string]: string } = {
     "5": "17:50",
     "6": "19:40"
 };
-
-export const assignPeriodTimees = (course: Course): Course => {
-    const period = course.period;
-
-    course.code.PeriodStartTimes = PeriodStartTimes[period];
-    course.code.PeriodEndTimes = PeriodEndTimes[period];
-
-    return course;
-}
