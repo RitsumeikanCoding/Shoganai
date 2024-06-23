@@ -43,8 +43,13 @@ export const App: React.FC = () => {
 
             const result = ReadExcelFile(loadedCourses, typedarray);
             console.log("Courses: ", result);
+            // Here we generate the schedule
         };
         fileReader.readAsArrayBuffer(data);
+    };
+
+    const onExportToGoogle = async () => {
+       
     };
 
     return (
@@ -57,7 +62,7 @@ export const App: React.FC = () => {
                     <input type="file" id="fileInput" accept=".pdf" onChange={handleFileChange} />
                 </div>
                 <button id={css.generateButton} onClick={onGenerateSchedule}>Generate Schedule</button>
-                <button id={css.importGoogleCalendarButton}>Import to Google Calendar</button>
+                <button id={css.importGoogleCalendarButton} onClick={onExportToGoogle}>Import to Google Calendar</button>
             </div>
             <div className={css.main}>
                 <div className={css.sliderContainer}>
