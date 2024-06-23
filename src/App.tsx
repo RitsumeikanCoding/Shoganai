@@ -43,7 +43,7 @@ export const App: React.FC = () => {
 
             const result = ReadExcelFile(loadedCourses, typedarray);
             console.log("Courses: ", result);
-            // Here we generate the schedule
+            setLoadedCourses(result);
         };
         fileReader.readAsArrayBuffer(data);
     };
